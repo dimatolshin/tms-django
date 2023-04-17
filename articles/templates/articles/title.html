@@ -1,0 +1,11 @@
+<form action="{% url 'articles:like' article.id %}" method="POST">
+{% csrf_token %}
+        {% if article.id in favorite_article %}
+        <p>Helo World</p>
+        {% endif %}
+        <h1>Title:{{article.title}}</h1>
+        <h3>Author:{{article.author}}</h3>
+        <h3>Text:{{article.text}}</h3>
+        <p>Like:{{article.like_count}}</p>
+        <input type="submit" value="like" />
+        </form>
