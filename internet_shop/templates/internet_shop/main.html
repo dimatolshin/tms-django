@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Internet_Shops</title>
+</head>
+<body>
+    {% for category in category_list %}
+        <h1><li><a href="{% url 'internet_shop:information_of_category' category.id %}">{{category.name}}</a></li></h1>
+        {% for products in category.products.all %}
+            <h4><li><a href="{% url 'internet_shop:information_of_product' products.id %}">{{products.name}}</a></li></h4>
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>

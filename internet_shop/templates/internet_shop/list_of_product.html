@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product {{information_of_product.id}}</title>
+</head>
+<body>
+        <a href="{% url 'internet_shop:main' %}">Main page</a>
+        <h1>Name: {{information_of_product.name}}</h1>
+        <h3>Description: {{information_of_product.description}}</h3>
+        <h3>Category:<a href="{% url 'internet_shop:information_of_category' information_of_product.category.id %}">{{information_of_product.category}}</a></h3>
+</body>
+</html>

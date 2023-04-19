@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Internet_Shops</title>
+</head>
+<body>
+    {% for products in list_products %}
+        {% for product in products %}
+        {{product.category}}
+        {{product.name}}
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>

@@ -18,6 +18,13 @@ def title(request, article_id: int):
 
 def like(request, article_id: int):
     article = get_object_or_404(Article, id=article_id)
-    article.like_count += 1
+    like_session = request.session.get("like_object", [])
+    if article_id in like_session:
+        like_session.remove(article_id)
+        article.like_count -= 1
+    else:
+        like_session.append(article_id)
+        article.like_count += 1
+    request.session['like_object'] = like_session
     article.save()
     return redirect('articles:title', article.id)
