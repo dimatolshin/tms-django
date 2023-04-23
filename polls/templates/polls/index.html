@@ -1,11 +1,13 @@
 {% extends 'polls/base.html' %}
 {% block body %}
+    {% if questions %}
     <h1>Questions:</h1>
-        {% for question in questions %}
         <ul>
-            <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a></li>
+            {% for question in questions %}
+                <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a></li>
+            {% endfor %}
         </ul>
-    {% empty %}
-        <p>No polls are avalible.</p>
-    {% endfor %}
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
 {% endblock %}
