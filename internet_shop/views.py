@@ -18,3 +18,4 @@ def list_of_product(request, product_id: int):
 def list_of_category(request, category_id: int):
     information_of_category = get_object_or_404(Category, id=category_id)
     return render(request, 'internet_shop/list_of_category.html', {'information_of_category': information_of_category})
+
