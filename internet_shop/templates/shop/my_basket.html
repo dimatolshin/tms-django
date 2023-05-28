@@ -1,0 +1,26 @@
+{% extends 'shop/base.html' %}
+
+{% block body %}
+    {% if not order_entry%}
+        <p>Your bask is empty!</p>
+    {% else %}
+        {% for objects in order_entry %}
+        <li>
+            <a href="{% url 'shop:product_detail' objects.product.id %}">{{objects.product.name}}</a> --{{objects.count}}
+        </li>
+        {% endfor %}
+        <p>All sum : {{all_sum}}$</p>
+        <nav class="navbar navbar-light bg-light">
+        <form action="{% url 'shop:delete_order_entry' %}" method="post">
+              {% csrf_token %}
+        <input type="submit" value="Clear basket">
+        </form>
+        <form action="{% url 'shop:checkout' %}" method="post">
+              {% csrf_token %}
+        <input type="submit" value="Checkout" class="btn btn-sm btn-outline-primary">
+        </form>
+        </nav>
+    {% endif %}
+
+
+{% endblock %}
