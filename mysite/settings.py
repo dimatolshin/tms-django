@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'internet_shop',
     'articles',
     'polls',
+    'django_rq',
     'rest_framework',
     'debug_toolbar',
     'django.contrib.admin',
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -65,7 +67,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -138,6 +140,15 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': '6379',
+        'DB': 0,
+    },
+}
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ATOMIC_REQUESTS = True
@@ -146,8 +157,8 @@ TEST_MEMCACHE = False
 if not DEBUG or TEST_MEMCACHE:
     CACHES = {
         'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
         }
     }
 else:
@@ -155,4 +166,4 @@ else:
         'default': {
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
-}
+    }

@@ -1,12 +1,15 @@
 import profile
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
 from django.views.decorators.cache import cache_page
+from django.contrib import messages
 
-from .models import Category, Product, Order, OrderEntry ,OrderStatus
+from .forms import UserForm
+from .models import Category, Product, Order, OrderEntry, OrderStatus
 
 
 def index(request):
@@ -37,8 +40,10 @@ def product_detail(request, product_id: int):
 def add_to_cart(request):
     profile = request.user.profile
     if not profile.shopping_cart:
-        profile.shopping_cart = Order(profile=request.user.profile)  # т.к связь one to one нужен такой конструктор , для связи где есть релайтет нейм на стороне мени можно обращаться через .create
+        profile.shopping_cart = Order(
+            profile=request.user.profile)  # т.к связь one to one нужен такой конструктор , для связи где есть релайтет нейм на стороне мени можно обращаться через .create
         profile.shopping_cart.save()
+        profile.save()
 
     assert request.method == "POST"
     product_id = request.POST['product_id']
@@ -59,7 +64,8 @@ def my_basket(request):
     if not profile.shopping_cart:
         profile.shopping_cart = Order(profile=request.user.profile)
         profile.shopping_cart.save()
-    order_entry = OrderEntry.objects.all()
+        profile.save()
+    order_entry = profile.shopping_cart.order_entries.all()
     all_sum = 0
     for objects in order_entry:
         count = objects.count
@@ -71,10 +77,12 @@ def my_basket(request):
 
 def delete_order_entry(request):
     assert request.method == "POST"
-    order=request.user.profile.shopping_cart
-    order_entry=OrderEntry.objects.filter(order=order)
-    order_entry.delete()
+    order = request.user.profile.shopping_cart
+    order.order_entries.all().delete()
+    order.save()
+    messages.info(request, "You are cleaning basket right now!")
     return redirect('shop:my_basket')
+
 
 def checkout(request):
     profile = request.user.profile
@@ -83,7 +91,32 @@ def checkout(request):
     order.save()
     profile.shopping_cart = Order.objects.create(profile=profile)
     profile.save()
-    redirect('shop:my_basket')
+    messages.success(request, 'Сongratulations your order is paid')
+    return redirect('shop:my_basket')
 
 
+@login_required()
+def information_of_user(request: HttpRequest, user_id: int):
+    user = get_object_or_404(User, id=user_id)
+    return render(request, 'shop/personal_account.html', {'user': user})
 
+
+def edit_information(request, user_id: int):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            user = get_object_or_404(User, id=user_id)
+            user.username = username
+            user.email = email
+            user.first_name = first_name
+            user.last_name = last_name
+            user.save()
+            messages.success(request,"You are change information ;)")
+            return redirect('shop:information_of_user', user.id)
+    else:
+        form = UserForm()
+    return render(request, 'shop/edit_information.html', {'form': form})

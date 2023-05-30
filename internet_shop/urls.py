@@ -12,4 +12,6 @@ urlpatterns = [
     path('my_basket/', views.my_basket, name='my_basket'),
     path('delete_order_entry/',views.delete_order_entry,name='delete_order_entry'),
     path('checkout/',views.checkout,name='checkout'),
+    path('personal_account/<int:user_id>',views.information_of_user,name='information_of_user'),
+    path('edit_information/<int:user_id>',views.edit_information,name='edit_information'),
 ]

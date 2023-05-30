@@ -1,6 +1,7 @@
 <form action="{% url 'polls:vote' question.id %}" method="POST">
     {% csrf_token %}
         <h1>{{question.question_text}}</h1>
+        <p>&#128065 {{question.view_count}}</p>
         {% if error_message %}
             <p><strong>{{error_message}}</strong></p>
         {% endif %}

@@ -3,8 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views import generic
 
+from .jobs import add_view_count
 from .models import Question
 from .forms import QuestionForm
+
 
 
 def index(request: HttpResponse):
@@ -15,6 +17,7 @@ def index(request: HttpResponse):
 
 def detail(request, question_id: int):
     question = get_object_or_404(Question, id=question_id, pub_date__lte=timezone.now())
+    add_view_count.delay(question)
     context = {'question': question}
     return render(request, 'polls/detail.html', context)
 

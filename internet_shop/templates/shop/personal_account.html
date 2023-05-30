@@ -1,0 +1,17 @@
+{% extends 'shop/base.html' %}
+
+{% block body %}
+       {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+      <h4>Username:{{user.username}}</h4>
+      <h4>Email:{{user.email}}</h4>
+      <h4>First_name:{{user.first_name}}</h4>
+      <h4>Last_name:{{user.last_name}}</h4>
+      <a href="{% url 'shop:edit_information' user.id %}">Change information </a>
+
+{% endblock %}

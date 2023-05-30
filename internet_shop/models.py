@@ -45,7 +45,7 @@ class Order(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
     shopping_cart = models.OneToOneField(Order, on_delete=models.SET_NULL,
                                          null=True, blank=True, related_name='+')
 
