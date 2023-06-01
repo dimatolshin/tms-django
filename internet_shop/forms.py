@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-
+# TODO use ModelForm
 class UserForm(forms.Form):
     username = forms.CharField(label='Username', max_length=20)
     email = forms.EmailField(label='Email', max_length=100)

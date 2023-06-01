@@ -54,7 +54,7 @@ def add_to_cart(request):
         order_entry = profile.shopping_cart.order_entries.create(product=product, count=0)
     order_entry.count += 1
     order_entry.save()
-
+    messages.success(request, 'You are adding product in the basket')
     return redirect('shop:product_detail', product_id)
 
 
@@ -100,8 +100,8 @@ def information_of_user(request: HttpRequest, user_id: int):
     user = get_object_or_404(User, id=user_id)
     return render(request, 'shop/personal_account.html', {'user': user})
 
-
-def edit_information(request, user_id: int):
+@login_required()
+def edit_information(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -109,7 +109,7 @@ def edit_information(request, user_id: int):
             email = form.cleaned_data['email']
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
-            user = get_object_or_404(User, id=user_id)
+            user = request.user
             user.username = username
             user.email = email
             user.first_name = first_name
@@ -119,4 +119,8 @@ def edit_information(request, user_id: int):
             return redirect('shop:information_of_user', user.id)
     else:
         form = UserForm()
+        form.username=request.user.username
     return render(request, 'shop/edit_information.html', {'form': form})
+
+
+## у input text есть values {{в котором можно указать то что будет в строке текст}}

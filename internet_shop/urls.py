@@ -13,5 +13,5 @@ urlpatterns = [
     path('delete_order_entry/',views.delete_order_entry,name='delete_order_entry'),
     path('checkout/',views.checkout,name='checkout'),
     path('personal_account/<int:user_id>',views.information_of_user,name='information_of_user'),
-    path('edit_information/<int:user_id>',views.edit_information,name='edit_information'),
+    path('edit_information/',views.edit_information,name='edit_information'),
 ]
