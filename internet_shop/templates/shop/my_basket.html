@@ -1,32 +1,31 @@
 {% extends 'shop/base.html' %}
 
 {% block body %}
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+
     {% if not order_entry%}
-        <p>Your bask is empty!</p>
+        <h3 style="text-align:center;"><div class="alert alert-danger"><p style="font-family:courier; color:Purple">Your bask is empty!</p></div></h3>
     {% else %}
+
+        <h1>Products:</h1>
         {% for objects in order_entry %}
-        <li>
-            <a href="{% url 'shop:product_detail' objects.product.id %}">{{objects.product.name}}</a> --{{objects.count}}
-        </li>
+                <h3><a href="{% url 'shop:product_detail' objects.product.id %}">{{objects.product.name}}</a> -- <span class="badge">{{objects.count}}</span></h3>
         {% endfor %}
-        <p>All sum : {{all_sum}}$</p>
-        <nav class="navbar navbar-light bg-light">
-        <form action="{% url 'shop:delete_order_entry' %}" method="post">
-              {% csrf_token %}
-        <input type="submit" value="Clear basket">
-        </form>
-        <form action="{% url 'shop:checkout' %}" method="post">
-              {% csrf_token %}
-        <input type="submit" value="Checkout" class="btn btn-sm btn-outline-primary">
-        </form>
-        </nav>
+        <h3>All sum : <span class="badge">{{all_sum}}$</span></h3>
+    <div class="btn-group btn-group-justified">
+        <div class="row">
+            <form action="{% url 'shop:delete_order_entry' %}" method="post">
+                  {% csrf_token %}
+                <div class="col-sm-1" style="background-color:active;"><input type="submit" value="Clear basket" class="btn btn-primary btn btn-danger"></div>
+            </form>
+            <form action="{% url 'shop:checkout' %}" method="post">
+                  {% csrf_token %}
+                <div class="col-sm-1" style="background-color:active;"><input type="submit" value="Checkout" class="btn btn-primary"></div>
+            </form>
+    </div>
+
+
+
+
     {% endif %}
 
 

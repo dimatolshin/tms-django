@@ -4,15 +4,18 @@
     {% if not categories %}
         <h1>There are no categories</h1>
     {% else %}
-        <h1>Main page</h1>
-        <h3><a href="{% url 'shop:products' %}">All Products</a></h3>
+        <div class="container">
+            <div class="jumbotron">
+        <h3 style="text-align:center;"><a href="{% url 'shop:products' %}" ><p style="font-family:courier; color:Purple">All Products</p></a></h3>
+            </div>
+        </div>
         <ul>
             {% for category in categories %}
                 <li>
-                    <a href="{% url 'shop:category_detail' category.id %}">{{ category.name }}</a>
+                    <h3 style="font-family:verdana;"><a href="{% url 'shop:category_detail' category.id %}" ><p style="color:CadetBlue;">{{ category.name }}</p> </a></h3>
                     <ul>
                         {% for product in category.products.all %}
-                            <li><a href="{% url 'shop:product_detail' product.id %}">{{ product.name }}</a></li>
+                        <div class="well well-sm"><h4><a href="{% url 'shop:product_detail' product.id %}"><p style="color:MediumSlateBlue;">{{ product.name }} </p></a></h4></div>
                         {% endfor %}
                     </ul>
                 </li>

@@ -1,20 +1,11 @@
 {% extends 'shop/base.html' %}
 
 {% block body %}
-    {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-      {% endif %}
-    <h1>{{ product.name }} -- {{product.price}}$ </h1>
-    <p>{{ product.description }}</p>
-    <p>Category:
-        <a href="{% url 'shop:category_detail' product.category.id %}">
-            {{ product.category.name }}
-        </a>
-    </p>
+
+    <h1 style="text-align:center;"> <p style="font-family:courier; color:MediumSlateBlue">{{ product.name }} </p></h1>
+    <h2 style="font-family:verdana;color:Black;">Description: {{ product.description }}</h2>
+    <h2 style="font-family:verdana;color:Black;"><p>Category: <a href="{% url 'shop:category_detail' product.category.id %}" style="color:CadetBlue;">{{ product.category.name }}</a></p></h2>
+    <h2 style="font-family:verdana;color:Black;">Price: {{product.price}}$</h2>
      {% if user.is_authenticated %}
     <form action="{% url 'shop:add_to_cart' %}" method="post">
         {% csrf_token %}

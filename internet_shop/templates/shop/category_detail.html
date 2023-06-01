@@ -1,10 +1,10 @@
 {% extends 'shop/base.html' %}
 
 {% block body %}
-  <h1>{{ category.name }}</h1>
+  <h1 style="font-family:verdana;text-align:center;"><p style="font-family:courier; color:CadetBlue">Category:{{ category.name }}</p></h1>
   <ul>
     {% for product in category.products.all %}
-      <li><a href="{% url 'shop:product_detail' product.id %}">{{ product.name }}</a></li>
+    <div class="well well-sm"><h4><a href="{% url 'shop:product_detail' product.id %}"><p style="color:MediumSlateBlue;">{{ product.name }}</p></a></h4></div>
     {% endfor %}
   </ul>
 {% endblock %}
