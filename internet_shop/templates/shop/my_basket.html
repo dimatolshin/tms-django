@@ -8,7 +8,19 @@
 
         <h1>Products:</h1>
         {% for objects in order_entry %}
-                <h3><a href="{% url 'shop:product_detail' objects.product.id %}">{{objects.product.name}}</a> -- <span class="badge">{{objects.count}}</span></h3>
+                <h3><a href="{% url 'shop:product_detail' objects.product.id %}">{{objects.product.name}}</a> -- <span class="badge">{{objects.count}}</span> -- {{objects.price}}$</h3>
+                 <form action="{% url 'shop:edit_count_order_entry' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" value={{objects.count}} name="objects_count">
+                    <input type="submit" value="Apply">
+                    <input type="hidden" value={{objects.id}} name="objects_id">
+                </form>
+                <form action="{% url 'shop:delete_one_order_entry' %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="delete">
+                    <input type="hidden" value={{objects.id}} name="objects_id">
+                </form>
+
         {% endfor %}
         <h3>All sum : <span class="badge">{{all_sum}}$</span></h3>
     <div class="btn-group btn-group-justified">

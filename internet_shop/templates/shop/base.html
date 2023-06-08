@@ -15,11 +15,11 @@
     </div>
       {% if user.is_authenticated %}
     <ul class="nav navbar-nav">
-      <li ><a href="{% url 'shop:my_basket' %}"><span class="glyphicon glyphicon-shopping-cart"></span> My basket</a></li>
+      <li ><a href="{% url 'shop:my_basket' %}"><span class="glyphicon glyphicon-shopping-cart"></span> My basket  {{ user.profile.shopping_cart.count}}</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li>
-        <form action="{% url 'shop:information_of_user' user.id %}"  method="post">
+        <form action="{% url 'shop:information_of_user' %}"  method="post">
               {% csrf_token %}
               <input type="submit" value="Profile &#9819;" class="btn btn-default active">
           </form>
@@ -35,6 +35,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li><a href="#"><span  class="glyphicon glyphicon-briefcase"></span> Sign Up</a></li>
             <li><a href="{% url 'login' %}?next={{ request.path }}"><span class="glyphicon glyphicon-object-align-bottom"></span> Login</a></li>
+            <a href="{% url 'shop:register' %}">Register</a>
 
       {% endif %}
         </ul>

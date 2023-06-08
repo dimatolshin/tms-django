@@ -7,10 +7,22 @@
         <div class="col-sm-3" style="background-color:active;"><h4>Email:{{user.email}}</h4></div>
         <div class="col-sm-3" style="background-color:active;"><h4>First_name:{{user.first_name}}</h4></div>
         <div class="col-sm-2" style="background-color:active;"><h4>Last_name:{{user.last_name}}</h4></div>
-
-
-       <h5 style="text-align:mindle"><a href="{% url 'shop:edit_information' %}">Change information </a></h5>
-
+        <h5 style="text-align:mindle"><a href="{% url 'shop:edit_information' %}">Change information </a></h5>
   </div>
+    {% if orders %}
+      {% for order in orders %}
+            <h3> Order Number № {{order.id}}</h3>
+            <h5> Count of products:{{order.count}}</h5>
+            <h5> Order All price:{{order.price}}</h5>
+            <h5> Order status : {{order.status}}</h5>
+      {% endfor %}
+    {% else %}
+        <p> There are not orders yet </p>
+    {% endif %}
+
+
+
+
+        <a href="{% url 'shop:orders_complete' %}"> Completing Orders</a>
 
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'shop/base.html' %}
+
+{% block body%}
+    {% for order in orders  %}
+        <h1>№ order:{{order.id}}</h1>
+        {% for order_entry in order.order_entries.all %}
+            <li>
+                Product:{{order_entry.product.name}} -- {{order_entry.count}} -- {{order_entry.price}}
+            </li>
+        {% endfor %}
+        <p>Status:{{order.status}}</p>
+        <p>Price:{{order.price}}</p>
+        <form action="{% url 'shop:repeat_order' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Repeat">
+                <input type="hidden" value={{order.id}} name="order_id">
+        </form>
+    {% endfor %}
+{% endblock %}

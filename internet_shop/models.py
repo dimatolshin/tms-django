@@ -1,6 +1,9 @@
-from django.db import models
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, AbstractUser
+from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from django.views import View
 
 
 class Category(models.Model):
@@ -29,6 +32,10 @@ class OrderEntry(models.Model):
     def __str__(self):
         return f'{self.product} - {self.count}'
 
+    @property
+    def price(self):
+        return self.count * self.product.price
+
 
 class OrderStatus(models.TextChoices):
     INITIAL = 'INITIAL',
@@ -43,11 +50,23 @@ class Order(models.Model):
     def __str__(self):
         return f'id:{self.id} - {self.profile} - {self.status}'
 
+    @property
+    def price(self):
+        return sum(order_entry.price for order_entry in self.order_entries.all())
+
+    @property
+    def count(self):
+        return sum(order_entry.count for order_entry in self.order_entries.all())
+
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     shopping_cart = models.OneToOneField(Order, on_delete=models.SET_NULL,
                                          null=True, blank=True, related_name='+')
 
     def __str__(self):
         return str(self.user)
+
+
+
+

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -167,3 +168,4 @@ else:
             'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         }
     }
+CRISPY_TEMPLATE_PACK = 'uni_form'

@@ -1,15 +1,13 @@
-import profile
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
-from django.views.decorators.cache import cache_page
 from django.contrib import messages
+from django.views import View
+from django.contrib.auth import authenticate, login
 
-from .forms import UserForm
-from .models import Category, Product, Order, OrderEntry, OrderStatus
+from .forms import UserForm, UserCreationForm, NewUserForm
+from .models import Category, Product, Order, OrderEntry, OrderStatus, Profile
 
 
 def index(request):
@@ -96,9 +94,11 @@ def checkout(request):
 
 
 @login_required()
-def information_of_user(request: HttpRequest, user_id: int):
-    user = get_object_or_404(User, id=user_id)
-    return render(request, 'shop/personal_account.html', {'user': user})
+def information_of_user(request: HttpRequest):
+    user = request.user
+    orders = request.user.profile.orders.all().order_by('id').reverse()[:6]
+    return render(request, 'shop/personal_account.html', {'user': user, 'orders': orders})
+
 
 @login_required()
 def edit_information(request):
@@ -115,12 +115,63 @@ def edit_information(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
-            messages.success(request,"You are change information ;)")
+            messages.success(request, "You are change information ;)")
             return redirect('shop:information_of_user', user.id)
     else:
         form = UserForm()
-        form.username=request.user.username
+        form.username = request.user.username
     return render(request, 'shop/edit_information.html', {'form': form})
 
+
+@login_required()
+def orders_complete(request):
+    orders = request.user.profile.orders.exclude(status='INITIAL').order_by('-id')[:6]
+    return render(request, 'shop/orders_complete.html', {'orders': orders})
+
+
+@login_required()
+def delete_one_order_entry(request):
+    shopping_cart = request.user.profile.shopping_cart
+    shopping_cart.order_entries.get(id=request.POST['objects_id']).delete()
+    shopping_cart.save()
+    messages.success(request, "Your product delete")
+    return redirect('shop:my_basket')
+
+
+@login_required()
+def edit_count_order_entry(request):
+    shopping_cart = request.user.profile.shopping_cart.order_entries.get(id=request.POST['objects_id'])
+    shopping_cart.count = request.POST['objects_count']
+    shopping_cart.save()
+    return redirect('shop:my_basket')
+
+
+@login_required()
+def repeat_order(request):
+    profile = request.user.profile
+    shopping_cart = profile.shopping_cart
+    shopping_cart.order_entries.all().delete()
+    profile.shopping_cart = Order(profile=profile)
+    profile.shopping_cart.save()
+    orders = request.user.profile.orders.get(id=request.POST['order_id'])
+    for order in orders.order_entries.all():
+        profile.shopping_cart.order_entries.create(product=order.product, count=order.count)
+        profile.shopping_cart.save()
+    profile.save()
+    return redirect('shop:my_basket')
+
+
+
+def register_request(request):
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Registration successful.")
+            return redirect('shop:index')
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = NewUserForm()
+    return render(request, "registration/register.html", context={"form": form})
 
 ## у input text есть values {{в котором можно указать то что будет в строке текст}}
