@@ -16,4 +16,7 @@
                 <input type="hidden" value={{order.id}} name="order_id">
         </form>
     {% endfor %}
+        {% if not orders %}
+            <h1>There are empty!</h1>
+        {% endif %}
 {% endblock %}

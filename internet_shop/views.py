@@ -95,9 +95,8 @@ def checkout(request):
 
 @login_required()
 def information_of_user(request: HttpRequest):
-    user = request.user
     orders = request.user.profile.orders.all().order_by('id').reverse()[:6]
-    return render(request, 'shop/personal_account.html', {'user': user, 'orders': orders})
+    return render(request, 'shop/personal_account.html', {'orders': orders})
 
 
 @login_required()
@@ -118,8 +117,7 @@ def edit_information(request):
             messages.success(request, "You are change information ;)")
             return redirect('shop:information_of_user', user.id)
     else:
-        form = UserForm()
-        form.username = request.user.username
+        form = UserForm(instance=request.user)
     return render(request, 'shop/edit_information.html', {'form': form})
 
 
