@@ -1,25 +1,55 @@
 {% extends 'shop/base.html' %}
-
 {% block body %}
     {% if not categories %}
-        <h1>There are no categories</h1>
+        <h1 class="display-1">There are no categories</h1>
     {% else %}
-        <div class="container">
-            <div class="jumbotron">
-        <h3 style="text-align:center;"><a href="{% url 'shop:products' %}" ><p style="font-family:courier; color:Purple">All Products</p></a></h3>
-            </div>
+        <div class="bg-1">
+          <div class="container text-center">
+            <h2>The Best Product Shop </h2>
+              <a href="{% url 'shop:products' %}" ><img src="https://i.pinimg.com/originals/a4/53/6c/a4536c9303864b7dcac0e0b2b1e9ac23.jpg" class="img-circle" alt="Bird" width="350" height="350"></a>
+            <h3>Click!</h3>
+          </div>
         </div>
-        <ul>
-            {% for category in categories %}
-                <li>
-                    <h3 style="font-family:verdana;"><a href="{% url 'shop:category_detail' category.id %}" ><p style="color:CadetBlue;">{{ category.name }}</p> </a></h3>
-                    <ul>
-                        {% for product in category.products.all %}
-                        <div class="well well-sm"><h4><a href="{% url 'shop:product_detail' product.id %}"><p style="color:MediumSlateBlue;">{{ product.name }} </p></a></h4></div>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endfor %}
-        </ul>
+
+        <div class="container">
+          <h2>Category</h2>
+          <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+              <li data-target="#myCarousel" data-slide-to="i" ></li>
+              <li data-target="#myCarousel" data-slide-to="2" ></li>
+              <li data-target="#myCarousel" data-slide-to="3" ></li>
+            </ol>
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
+                  <div class="item active">
+                    <a href="{% url 'shop:my_basket' %}"><img src="https://s1.1zoom.me/b5050/154/317795-svetik_1920x1200.jpg" alt="Basket" style="width:100%;"></a>
+                    <div class="carousel-caption">
+                      <h3>Basket</h3>
+                        <p>Click me</p>
+                    </div>
+                  </div>
+                {% for category in categories%}
+                  <div class="item">
+                    <a href="{% url 'shop:category_detail' category.id %}"><img src="{{category.image}}" alt="Products" style="width:100%;"></a>
+                    <div class="carousel-caption">
+                      <h3>{{category.name}}</h3>
+                    </div>
+                  </div>
+                {% endfor %}
+            </div>
+              <!-- Left and right controls -->
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+
     {% endif %}
 {% endblock %}
