@@ -1,9 +1,6 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User, AbstractUser
+from django.contrib.auth.models import User
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.utils.translation import gettext_lazy as _
-from django.views import View
+
 
 
 class Category(models.Model):

@@ -1,13 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from django.views import View
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 
-from .forms import UserForm, UserCreationForm, NewUserForm
-from .models import Category, Product, Order, OrderEntry, OrderStatus, Profile
+from .forms import UserForm, NewUserForm
+from .models import Category, Product, Order, OrderStatus
 
 
 def index(request):
@@ -115,7 +113,7 @@ def edit_information(request):
             user.last_name = last_name
             user.save()
             messages.success(request, "You are change information ;)")
-            return redirect('shop:information_of_user', user.id)
+            return redirect('shop:information_of_user')
     else:
         form = UserForm(instance=request.user)
     return render(request, 'shop/edit_information.html', {'form': form})
