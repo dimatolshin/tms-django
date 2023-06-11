@@ -3,10 +3,17 @@
 {% block body %}
 <h3 style="text-align:center;"><p style="font-family:courier; color:Purple">All Products in shop</p></h3>
     <ul>
-        {% for product in products %}
-           <li>
+        {% for product in page_obj %}
                <div class="well well-sm"><h3><a href="{% url 'shop:product_detail' product.id %}"><p style="color:MediumSlateBlue;">{{ product.name }}</p></a></h3></div>
-           </li>
         {% endfor %}
     </ul>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% for p in page_obj.paginator.page_range %}
+            <li class="page-item">
+                <a href="?page={{p}}" class="page-link">{{p}}</a>
+            </li>
+        {% endfor %}
+      </ul>
+    </nav>
 {% endblock %}

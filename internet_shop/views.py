@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect, HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -21,8 +22,13 @@ def category_detail(request, category_id: int):
 
 
 def products_view(request):
+    products = Product.objects.all()
+    paginator = Paginator(products, 9)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, 'shop/products.html', {
-        'products': Product.objects.all(),
+        'products': products, 'page_obj': page_obj,
     })
 
 
