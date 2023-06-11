@@ -1,21 +1,25 @@
 {% extends 'shop/base.html' %}
 
 {% block body%}
+    <div class="row">
     {% for order in orders  %}
-        <h1>№ order:{{order.id}}</h1>
+        <div class="col-sm-4">
+        <h1 style="font-family:verdana;color:Blue">№ order:{{order.id}}</h1>
         {% for order_entry in order.order_entries.all %}
-            <li>
-                Product:{{order_entry.product.name}} -- {{order_entry.count}} -- {{order_entry.price}}
-            </li>
+            <h5 style="font-family:verdana;color:Blue"><li>
+               Product:{{order_entry.product.name}} -- {{order_entry.count}} -- {{order_entry.price}}
+            </li></h5>
         {% endfor %}
-        <p>Status:{{order.status}}</p>
-        <p>Price:{{order.price}}</p>
+        <h4 style="font-family:verdana;color:Blue">Status:{{order.status}}</h4>
+        <h4 style="font-family:verdana;color:Blue">Price:{{order.price}}</h4>
         <form action="{% url 'shop:repeat_order' %}" method="post">
                 {% csrf_token %}
                 <input type="submit" value="Repeat">
                 <input type="hidden" value={{order.id}} name="order_id">
         </form>
+        </div>
     {% endfor %}
+    </div>
         {% if not orders %}
             <h1>There are empty!</h1>
         {% endif %}

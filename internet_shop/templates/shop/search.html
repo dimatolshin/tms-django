@@ -1,0 +1,17 @@
+{% extends 'shop/base.html' %}
+
+{% block body %}
+    {% if not products %}
+        <h1 style="font-family:verdana;text-align:center;font-family:verdana;color:Gold;">This product is not in our store!</h1>
+    {% endif %}
+    <div class="row">
+    {% for product in products %}
+        <div class="col-sm-4">
+        <h3 style="font-family:verdana;color:Gold;">{{product.name}}</h3>
+         <a href="{% url 'shop:product_detail' product.id %}"><img src="{{product.image}}" class="rounded"  width="304" height="236"></a>
+        </div>
+    {% endfor %}
+    </div>
+
+
+{% endblock %}

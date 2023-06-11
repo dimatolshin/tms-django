@@ -7,9 +7,9 @@
     <h1><img src="{{product.image}}" class="rounded" alt="Cinque Terre" width="304" height="236"></h1>
     </div>
 </div>
-    <h2 style="font-family:verdana;color:Black;">Description: {{ product.description }}</h2>
-    <h2 style="font-family:verdana;color:Black;">Category: <a href="{% url 'shop:category_detail' product.category.id %}">{{ product.category.name }}</a></h2>
-    <h2 style="font-family:verdana;color:Black;">Price: {{product.price}}$</h2>
+    <h2 style="font-family:verdana;color:White;">Description: {{ product.description }}</h2>
+    <h2 style="font-family:verdana;color:White;">Category: <a href="{% url 'shop:category_detail' product.category.id %}">{{ product.category.name }}</a></h2>
+    <h2 style="font-family:verdana;color:White;">Price: {{product.price}}$</h2>
      {% if user.is_authenticated %}
     <form action="{% url 'shop:add_to_cart' %}" method="post">
         {% csrf_token %}

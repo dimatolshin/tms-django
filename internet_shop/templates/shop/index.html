@@ -1,18 +1,33 @@
 {% extends 'shop/base.html' %}
 {% block body %}
+<style>
+input[type=text] {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+}
+</style>
     {% if not categories %}
         <h1 class="display-1">There are no categories</h1>
     {% else %}
         <div class="bg-1">
           <div class="container text-center">
-            <h2>The Best Product Shop </h2>
+            <form action="{% url 'shop:search_products' %}" method="post">
+                {% csrf_token %}
+              <input type="text" name="search" placeholder="Search.." >
+            </form>
               <a href="{% url 'shop:products' %}" ><img src="https://i.pinimg.com/originals/a4/53/6c/a4536c9303864b7dcac0e0b2b1e9ac23.jpg" class="img-circle" alt="Bird" width="350" height="350"></a>
-            <h3>Click!</h3>
+            <h3 style="font-family:verdana;color:Gold;">Click!</h3>
           </div>
         </div>
 
         <div class="container">
-          <h2>Category</h2>
           <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -27,7 +42,7 @@
                     <a href="{% url 'shop:my_basket' %}"><img src="https://s1.1zoom.me/b5050/154/317795-svetik_1920x1200.jpg" alt="Basket" style="width:100%;"></a>
                     <div class="carousel-caption">
                       <h3>Basket</h3>
-                        <p>Click me</p>
+                        <p class="text-warning">Click me</p>
                     </div>
                   </div>
                 {% for category in categories%}

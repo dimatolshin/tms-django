@@ -1,21 +1,40 @@
 {% extends 'shop/base.html' %}
 
 {% block body %}
-      <h3 style="text-align:center;"><p style="font-family:courier; color:Purple">Profile</p></h3>
+      <h1 style="text-align:center;font-family:verdana;color:Purple">Profile</h1>
   <div class="row">
-        <div class="col-sm-3" style="background-color:active;"><h4>Username:{{user.username}}</h4></div>
-        <div class="col-sm-3" style="background-color:active;"><h4>Email:{{user.email}}</h4></div>
-        <div class="col-sm-3" style="background-color:active;"><h4>First_name:{{user.first_name}}</h4></div>
-        <div class="col-sm-2" style="background-color:active;"><h4>Last_name:{{user.last_name}}</h4></div>
-        <h5 style="text-align:mindle"><a href="{% url 'shop:edit_information' %}">Change information </a></h5>
+        <div class="col-sm-3" style="background-color:active;"><h4 style="font-family:verdana;color:Gold";>Username:{{user.username}}</h4></div>
+        <div class="col-sm-3" style="background-color:active;"><h4 style="font-family:verdana;color:Gold";>Email:{{user.email}}</h4></div>
+        <div class="col-sm-3" style="background-color:active;"><h4 style="font-family:verdana;color:Gold">First_name:{{user.first_name}}</h4></div>
+        <div class="col-sm-2" style="background-color:active;"><h4 style="font-family:verdana;color:Gold">Last_name:{{user.last_name}}</h4></div>
+        <h5 style="text-align:mindle"><a href="{% url 'shop:edit_information' %} " class="badge badge-danger">Edit information </a></h5>
   </div>
     {% if orders %}
+         <div class="container mt-3">
+  <h2><a href="{% url 'shop:orders_complete' %}"> Completing Orders</a></h2>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th style="font-family:verdana;color:Gold">Order Number №</th>
+        <th style="font-family:verdana;color:Gold">Count of products</th>
+        <th style="font-family:verdana;color:Gold">Order All price</th>
+        <th style="font-family:verdana;color:Gold"> Order status</th>
+      </tr>
+    </thead>
       {% for order in orders %}
-            <h3> Order Number № {{order.id}}</h3>
-            <h5> Count of products:{{order.count}}</h5>
-            <h5> Order All price:{{order.price}}</h5>
-            <h5> Order status : {{order.status}}</h5>
+    <tbody>
+      <tr>
+        <td>{{order.id}}</td>
+        <td>{{order.count}}</td>
+        <td>{{order.price}}</td>
+        <td>{{order.status}}</td>
+      </tr>
+
+
       {% endfor %}
+    </tbody>
+  </table>
+         </div>
     {% else %}
         <p> There are not orders yet </p>
     {% endif %}
@@ -23,6 +42,5 @@
 
 
 
-        <a href="{% url 'shop:orders_complete' %}"> Completing Orders</a>
 
 {% endblock %}

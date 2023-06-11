@@ -147,7 +147,6 @@ def repeat_order(request):
     profile = request.user.profile
     shopping_cart = profile.shopping_cart
     shopping_cart.order_entries.all().delete()
-    profile.shopping_cart = Order(profile=profile)
     profile.shopping_cart.save()
     orders = request.user.profile.orders.get(id=request.POST['order_id'])
     for order in orders.order_entries.all():
@@ -155,7 +154,6 @@ def repeat_order(request):
         profile.shopping_cart.save()
     profile.save()
     return redirect('shop:my_basket')
-
 
 
 def register_request(request):
@@ -169,5 +167,10 @@ def register_request(request):
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
     return render(request, "registration/register.html", context={"form": form})
+
+
+def search_products(request):
+    products = Product.objects.filter(name__icontains=request.POST['search'])
+    return render(request, 'shop/search.html', {'products': products})
 
 ## у input text есть values {{в котором можно указать то что будет в строке текст}}

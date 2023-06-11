@@ -1,6 +1,7 @@
 {% extends 'shop/base.html' %}
 
 {% block body%}
+
     <form action="{% url 'shop:edit_information'%}" method="post">
         {% csrf_token %}
         {{form.as_p}}

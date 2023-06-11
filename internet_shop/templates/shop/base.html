@@ -8,7 +8,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <style>
     body {
-      background-image: url('https://gamerwall.pro/uploads/posts/2022-03/1647929427_19-gamerwall-pro-p-istoricheskii-fon-krasivie-28.jpg');
+      background-image: url('https://images.pexels.com/photos/255464/pexels-photo-255464.jpeg?cs=srgb&dl=pexels-pixabay-255464.jpg&fm=jpg');
       background-repeat: no-repeat;
       background-attachment: fixed;
       background-size: cover;
@@ -42,9 +42,8 @@
     </ul>
       {% else %}
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span  class="glyphicon glyphicon-briefcase"></span> Sign Up</a></li>
+            <li><a href="{% url 'shop:register' %}"><span  class="glyphicon glyphicon-briefcase"></span> Sign Up</a></li>
             <li><a href="{% url 'login' %}?next={{ request.path }}"><span class="glyphicon glyphicon-object-align-bottom"></span> Login</a></li>
-            <a href="{% url 'shop:register' %}">Register</a>
 
       {% endif %}
         </ul>

@@ -6,9 +6,10 @@
         <h3 style="text-align:center;"><div class="alert alert-danger"><p style="font-family:courier; color:Purple">Your bask is empty!</p></div></h3>
     {% else %}
 
-        <h1>Products:</h1>
+        <h1 style="font-family:verdana;color:Gold;">Products:</h1>
         {% for objects in order_entry %}
-                <h3><a href="{% url 'shop:product_detail' objects.product.id %}">{{objects.product.name}}</a> -- <span class="badge">{{objects.count}}</span> -- {{objects.price}}$</h3>
+                <h3 style="font-family:verdana;color:White;"><a href="{% url 'shop:product_detail' objects.product.id %}">{{objects.product.name}}</a> -- <span class="badge">{{objects.count}}</span> -- {{objects.price}}$</h3>
+                <a href="{% url 'shop:product_detail' objects.product.id %}"><img src="{{objects.product.image}}" class="rounded"  width="304" height="236"></a>
                  <form action="{% url 'shop:edit_count_order_entry' %}" method="post">
                     {% csrf_token %}
                     <input type="text" value={{objects.count}} name="objects_count">
@@ -22,7 +23,7 @@
                 </form>
 
         {% endfor %}
-        <h3>All sum : <span class="badge">{{all_sum}}$</span></h3>
+        <h3 style="font-family:verdana;color:White;">All sum : <span class="badge">{{all_sum}}$</span></h3>
     <div class="btn-group btn-group-justified">
         <div class="row">
             <form action="{% url 'shop:delete_order_entry' %}" method="post">

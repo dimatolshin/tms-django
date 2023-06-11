@@ -1,12 +1,12 @@
 {% extends 'shop/base.html' %}
 
 {% block body %}
-  <h1 style="font-family:verdana;text-align:center;"><p style="font-family:courier;">Category:{{ category.name }}</p></h1>
+  <h1 style="font-family:verdana;text-align:center;font-family:verdana;color:Gold;"><p style="font-family:courier;">Category:{{ category.name }}</p></h1>
 
 <div class="row">
     {% for product in category.products.all %}
       <div class="col-sm-4">
-        <h2 class="mt-0">{{product.name}} -- {{product.price}}$</h2>
+        <h2 style="font-family:verdana;color:Gold;" class="mt-0">{{product.name}} -- {{product.price}}$</h2>
         <a href="{% url 'shop:product_detail' product.id %}"><img src="{{product.image}}" class="img-thumbnail" alt="Cinque Terre" width="404" height="336"></a>
       </div>
     {% endfor %}

@@ -18,6 +18,7 @@ urlpatterns = [
     path('orders_complete/', views.orders_complete, name='orders_complete'),
     path('delete_one_order_entry/', views.delete_one_order_entry, name='delete_one_order_entry'),
     path('edit_count_order_entry/', views.edit_count_order_entry, name="edit_count_order_entry"),
-    path('repeat_order', views.repeat_order, name='repeat_order'),
-    path("register", views.register_request, name="register"),
+    path('repeat_order/', views.repeat_order, name='repeat_order'),
+    path("register/", views.register_request, name="register"),
+    path('search/',views.search_products, name='search_products'),
 ]
