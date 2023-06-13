@@ -16,8 +16,15 @@ def index(request):
 
 
 def category_detail(request, category_id: int):
+    category = get_object_or_404(Category, id=category_id)
+    products = Product.objects.filter(category=category)
+    paginator = Paginator(products, 9)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request, 'shop/category_detail.html', {
-        'category': get_object_or_404(Category, id=category_id),
+        'category': category, 'page_obj': page_obj,
+        'products': products,
     })
 
 
@@ -68,13 +75,18 @@ def my_basket(request):
         profile.shopping_cart.save()
         profile.save()
     order_entry = profile.shopping_cart.order_entries.all()
+    paginator = Paginator(order_entry, 5)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     all_sum = 0
     for objects in order_entry:
         count = objects.count
         price = objects.product.price
         total = count * price
         all_sum += total
-    return render(request, 'shop/my_basket.html', {'order_entry': order_entry, 'all_sum': all_sum})
+    return render(request, 'shop/my_basket.html', {'order_entry': order_entry, 'all_sum': all_sum,
+                                                   'page_obj':page_obj})
 
 
 def delete_order_entry(request):
@@ -177,6 +189,12 @@ def register_request(request):
 
 def search_products(request):
     products = Product.objects.filter(name__icontains=request.POST['search'])
-    return render(request, 'shop/search.html', {'products': products})
+    paginator = Paginator(products, 9)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'shop/search.html', {
+        'products': products, 'page_obj': page_obj,
+    })
 
 ## у input text есть values {{в котором можно указать то что будет в строке текст}}

@@ -5,13 +5,22 @@
         <h1 style="font-family:verdana;text-align:center;font-family:verdana;color:Gold;">This product is not in our store!</h1>
     {% endif %}
     <div class="row">
-    {% for product in products %}
+    {% for product in page_obj %}
         <div class="col-sm-4">
         <h3 style="font-family:verdana;color:Gold;">{{product.name}}</h3>
          <a href="{% url 'shop:product_detail' product.id %}"><img src="{{product.image}}" class="rounded"  width="304" height="236"></a>
         </div>
     {% endfor %}
     </div>
+<nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% for p in page_obj.paginator.page_range %}
+            <li class="page-item">
+                <a href="?page={{p}}" class="page-link">{{p}}</a>
+            </li>
+        {% endfor %}
+      </ul>
+</nav>
 
 
 {% endblock %}

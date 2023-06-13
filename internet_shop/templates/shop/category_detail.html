@@ -4,13 +4,22 @@
   <h1 style="font-family:verdana;text-align:center;font-family:verdana;color:Gold;"><p style="font-family:courier;">Category:{{ category.name }}</p></h1>
 
 <div class="row">
-    {% for product in category.products.all %}
+    {% for product in page_obj %}
       <div class="col-sm-4">
         <h2 style="font-family:verdana;color:Gold;" class="mt-0">{{product.name}} -- {{product.price}}$</h2>
         <a href="{% url 'shop:product_detail' product.id %}"><img src="{{product.image}}" class="img-thumbnail" alt="Cinque Terre" width="404" height="336"></a>
       </div>
     {% endfor %}
 </div>
+<nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% for p in page_obj.paginator.page_range %}
+            <li class="page-item">
+                <a href="?page={{p}}" class="page-link">{{p}}</a>
+            </li>
+        {% endfor %}
+      </ul>
+</nav>
 
 
 

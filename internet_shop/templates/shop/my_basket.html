@@ -7,7 +7,7 @@
     {% else %}
 
         <h1 style="font-family:verdana;color:Gold;">Products:</h1>
-        {% for objects in order_entry %}
+        {% for objects in page_obj %}
                 <h3 style="font-family:verdana;color:White;"><a href="{% url 'shop:product_detail' objects.product.id %}">{{objects.product.name}}</a> -- <span class="badge">{{objects.count}}</span> -- {{objects.price}}$</h3>
                 <a href="{% url 'shop:product_detail' objects.product.id %}"><img src="{{objects.product.image}}" class="rounded"  width="304" height="236"></a>
                  <form action="{% url 'shop:edit_count_order_entry' %}" method="post">
@@ -35,11 +35,16 @@
                 <div class="col-sm-1" style="background-color:active;"><input type="submit" value="Checkout" class="btn btn-primary"></div>
             </form>
     </div>
-
-
-
-
     {% endif %}
+<nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% for p in page_obj.paginator.page_range %}
+            <li class="page-item">
+                <a href="?page={{p}}" class="page-link">{{p}}</a>
+            </li>
+        {% endfor %}
+      </ul>
+</nav>
 
 
 {% endblock %}
