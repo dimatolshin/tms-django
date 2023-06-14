@@ -7,7 +7,7 @@ from .models import Product, Category, Profile, Order, OrderEntry
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    pass
 
 
 class ProductInline(admin.TabularInline):
